@@ -1,6 +1,10 @@
 const { gql } = require("apollo-server");
 
 const typeDefs = gql`
+  input NewTodoItemInput {
+    label: String!
+  }
+
   type TodoItem {
     id: ID!
     label: String!
