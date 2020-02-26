@@ -1,31 +1,41 @@
 const { gql } = require("apollo-server");
 
 const typeDefs = gql`
-  input NewTodoItemInput {
-    label: String!
-  }
+	input NewTodoItemInput {
+		label: String!
+	}
 
-  type TodoItem {
-    id: ID!
-    label: String!
-    completed: Boolean
-  }
+	input TodoItemInput {
+		label: String!
+		completed: Boolean
+	}
 
-  type TodoList {
-    id: ID!
-    name: String!
-    todoItems: [TodoItem]
-  }
+	type TodoItem {
+		id: ID!
+		label: String!
+		completed: Boolean
+	}
 
-  type Query {
-    todoLists: [TodoList]
-    todoList(id: ID!): TodoList
-  }
+	input NewTodoListInput {
+		name: String!
+	}
 
-  type Mutation {
-    addTodoList: TodoList
-    addTodoListItem: TodoItem
-  }
+	type TodoList {
+		id: ID!
+		name: String!
+		todoItems: [TodoItem]
+	}
+
+	type Query {
+		todoLists: [TodoList]
+		todoList(id: ID!): TodoList
+		todoItem(input: TodoItemInput): TodoItem
+	}
+
+	type Mutation {
+		addTodoList(input: NewTodoListInput): TodoList
+		addTodoItem(input: NewTodoItemInput): TodoItem
+	}
 `;
 
 module.exports = typeDefs;
