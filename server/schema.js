@@ -13,10 +13,15 @@ const typeDefs = gql`
 	type TodoItem {
 		id: ID!
 		label: String!
-		completed: Boolean
+		isCompleted: Boolean
+		todoListId: ID!
 	}
 
 	input NewTodoListInput {
+		name: String!
+	}
+
+	input TodoListInput {
 		name: String!
 	}
 
@@ -29,6 +34,7 @@ const typeDefs = gql`
 	type Query {
 		todoLists: [TodoList]
 		todoList(id: ID!): TodoList
+		todoItems: [TodoItem]
 		todoItem(input: TodoItemInput): TodoItem
 	}
 

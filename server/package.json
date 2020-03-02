@@ -4,10 +4,14 @@
   "description": "A test of making a todo list (yawn) with apollo.",
   "main": "index.js",
   "dependencies": {
+    "apollo-datasource-rest": "^0.7.0",
     "apollo-server": "^2.10.1",
     "lowdb": "^1.0.0",
     "nanoid": "^2.1.11",
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "sequelize": "^5.21.5",
+    "sqlite3": "^4.1.1",
+    "uuid": "^7.0.1"
   },
   "devDependencies": {},
   "scripts": {

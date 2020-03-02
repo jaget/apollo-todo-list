@@ -1,7 +1,12 @@
 module.exports = {
 	Query: {
-		todoLists(_, { input }, { models }) {
-			return models.TodoList.findMany(input || {});
+		// me: async (_, __, { dataSources }) =>
+		// 	dataSources.userAPI.findOrCreateUser(),
+		todoLists: async (_, { input }, { dataSources }) => {
+			return dataSources.todoListsAPI.findAll();
+		},
+		todoItems: async (_, { input }, { dataSources }) => {
+			return dataSources.todoItemsAPI.findAll();
 		},
 		todoList(_, { id }, { models }) {
 			return models.TodoList.findOne({ id });
