@@ -17,14 +17,28 @@ class TodoItemsAPI extends DataSource {
 		this.context = config.context;
 	}
 
-	async list() {
-		const found = await this.store.todoItems.findAll({});
+	async list(conditions) {
+		const found = await this.store.todoItems.findAll({
+			where: { ...conditions }
+		});
 		return found && found.length ? found : [];
 	}
 
-	async add({ values }) {
-		const result = await this.store.todoItems.create({ values });
-		return result;
+	async find(id) {
+		const found = await this.store.todoItems.findByPk(id);
+		return found && found.length ? found : [];
+	}
+
+	async create(values) {
+		return await this.store.todoItems.create({ ...values });
+	}
+
+	async update(id, values) {
+		return await this.store.todoItems.update({ ...values }, { where: { id } });
+	}
+
+	async delete({ id }) {
+		return await this.store.todoItems.destroy({ where: { id } });
 	}
 }
 
