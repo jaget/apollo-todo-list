@@ -2,27 +2,17 @@ module.exports = {
 	Query: {
 		// me: async (_, __, { dataSources }) =>
 		// 	dataSources.userAPI.findOrCreateUser(),
-		todoLists: async (_, { input }, { dataSources }) => {
-			return dataSources.todoListsAPI.findAll();
-		},
-		todoItems: async (_, { input }, { dataSources }) => {
-			return dataSources.todoItemsAPI.findAll();
-		},
-		todoList(_, { id }, { models }) {
-			return models.TodoList.findOne({ id });
-		},
-		todoItem(_, { id }, { models }) {
-			return models.TodoListItem.findOne({ id });
-		}
+		todoLists: (_, { input }, { dataSources }) =>
+			dataSources.todoListsAPI.list({ ...input }),
+		todoItems: (_, { input }, { dataSources }) =>
+			dataSources.todoItemsAPI.list({ ...input }),
+		todoList: (_, { id }, { models }) => models.TodoList.find(id),
+		todoItem: (_, { id }, { models }) => models.TodoListItem.find(id)
 	},
 	Mutation: {
-		addTodoItem(_, { input }, { models }) {
-			const todoItem = models.TodoItem.create({ ...input });
-			return todoItem;
-		},
-		addTodoList(_, { input }, { models }) {
-			const todoList = models.TodoList.create({ ...input });
-			return todoList;
-		}
+		addTodoItem: (_, { input }, models) =>
+			models.dataSources.todoItemsAPI.create({ ...input }),
+		addTodoList: (_, { input }, { models }) =>
+			models.TodoList.create({ ...input })
 	}
 };
