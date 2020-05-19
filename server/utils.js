@@ -48,10 +48,18 @@ module.exports.createStore = () => {
 	};
 
 	const todoItems = db.define("todoItems", {
+		id: {
+			type: Sequelize.INTEGER,
+			primaryKey: true,
+			autoIncrement: true
+		},
 		createdAt: Sequelize.DATE,
 		updatedAt: Sequelize.DATE,
 		label: Sequelize.STRING,
-		isCompleted: Sequelize.BOOLEAN,
+		isCompleted: {
+			type: Sequelize.BOOLEAN,
+			defaultValue: false
+		},
 		todoListId: Sequelize.INTEGER
 	});
 
