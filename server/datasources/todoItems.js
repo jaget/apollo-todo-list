@@ -1,6 +1,8 @@
 const uuidv4 = require("uuid/v4");
 const { DataSource } = require("apollo-datasource");
 
+const tableName = "todoItems";
+
 class TodoItemsAPI extends DataSource {
 	constructor({ store }) {
 		super();
@@ -18,7 +20,7 @@ class TodoItemsAPI extends DataSource {
 	}
 
 	async list(conditions) {
-		const found = await this.store.todoItems.findAll({
+		const found = await this.store[tableName].findAll({
 			where: { ...conditions }
 		});
 		return found && found.length ? found : [];
