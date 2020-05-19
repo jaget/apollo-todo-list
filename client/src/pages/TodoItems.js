@@ -68,7 +68,7 @@ export default function TodoItems() {
 	};
 
 	const todoItemsList = todoItems.data.todoItems.map((todoItem) => (
-		<TodoItemBox todoItem={todoItem} />
+		<TodoItemBox key={`${todoItem.id}-${todoItem.label}`} todoItem={todoItem} />
 	));
 
 	if (modal) {
