@@ -3,11 +3,12 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
 	input NewTodoItemInput {
 		label: String!
+		isCompleted: Boolean
 	}
 
 	input TodoItemInput {
 		label: String!
-		completed: Boolean
+		isCompleted: Boolean
 	}
 
 	type TodoItem {
