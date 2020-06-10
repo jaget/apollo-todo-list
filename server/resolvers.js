@@ -6,13 +6,16 @@ module.exports = {
 			dataSources.todoListsAPI.list({ ...input }),
 		todoItems: (_, { input }, { dataSources }) =>
 			dataSources.todoItemsAPI.list({ ...input }),
-		todoList: (_, { id }, { models }) => models.TodoList.find(id),
-		todoItem: (_, { id }, { models }) => models.TodoListItem.find(id)
+		todoList: (_, { id }, { dataSources }) => dataSources.TodoList.find(id),
+		todoItem: (_, { input }, { dataSources }) =>
+			dataSources.todoItemsAPI.find(input.id),
 	},
 	Mutation: {
 		addTodoItem: (_, { input }, models) =>
 			models.dataSources.todoItemsAPI.create({ ...input }),
+		deleteTodoItem: (_, { input }, models) =>
+			models.dataSources.todoItemsAPI.delete({ ...input }),
 		addTodoList: (_, { input }, { models }) =>
-			models.TodoList.create({ ...input })
-	}
+			models.TodoList.create({ ...input }),
+	},
 };

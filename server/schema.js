@@ -7,8 +7,7 @@ const typeDefs = gql`
 	}
 
 	input TodoItemInput {
-		label: String!
-		isCompleted: Boolean
+		id: ID!
 	}
 
 	type TodoItem {
@@ -20,6 +19,14 @@ const typeDefs = gql`
 
 	input NewTodoListInput {
 		name: String!
+	}
+
+	type DeleteTodoItemFeedback {
+		success: Boolean!
+	}
+
+	input DeleteTodoItemInput {
+		id: ID!
 	}
 
 	input TodoListInput {
@@ -42,6 +49,7 @@ const typeDefs = gql`
 	type Mutation {
 		addTodoList(input: NewTodoListInput): TodoList
 		addTodoItem(input: NewTodoItemInput): TodoItem
+		deleteTodoItem(input: DeleteTodoItemInput): DeleteTodoItemFeedback
 	}
 `;
 

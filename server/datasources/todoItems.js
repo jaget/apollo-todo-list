@@ -21,26 +21,39 @@ class TodoItemsAPI extends DataSource {
 
 	async list(conditions) {
 		const found = await this.store[tableName].findAll({
-			where: { ...conditions }
+			where: { ...conditions },
 		});
+
 		return found && found.length ? found : [];
 	}
 
 	async find(id) {
 		const found = await this.store.todoItems.findByPk(id);
-		return found && found.length ? found : [];
+		return found ? found : [];
 	}
 
 	async create(values) {
-		return await this.store.todoItems.create({ ...values });
+		return await this.store[tableName].create({ ...values });
 	}
 
 	async update(id, values) {
-		return await this.store.todoItems.update({ ...values }, { where: { id } });
+		return await this.store[tableName].update({ ...values }, { where: { id } });
 	}
 
 	async delete({ id }) {
-		return await this.store.todoItems.destroy({ where: { id } });
+		return await this.store[tableName].destroy({ where: { id } }).then(
+			function (rowDeleted) {
+				// rowDeleted will return number of rows deleted
+				if (rowDeleted === 1) {
+					return { success: true };
+				}
+				return { success: false };
+			},
+			function (err) {
+				console.log(err);
+				return { success: false };
+			}
+		);
 	}
 }
 

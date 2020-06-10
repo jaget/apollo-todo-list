@@ -13,7 +13,6 @@ const TODOITEM_DETAILS = gql`
 	}
 `;
 
-// Original version commented out above
 const GET_TODOITEMS = gql`
 	query todoItemsList {
 		todoItems {
@@ -60,8 +59,8 @@ export default function TodoItems() {
 				addTodoItem: {
 					__typename: "TodoItem",
 					id: Math.round(Math.random() * -1000000) + "",
-					label: input.name,
-					isCompleted: true,
+					label: input.label,
+					isCompleted: input.isCompleted,
 				},
 			},
 		});
