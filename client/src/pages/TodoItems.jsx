@@ -35,7 +35,7 @@ export default function TodoItems() {
 	const [modal, setModal] = useState(false);
 	const todoItems = useQuery(GET_TODOITEMS);
 
-	const [createTodoItem, newTodoItem] = useMutation(CREATE_TODOITEM, {
+	const [addTodoItem, newTodoItem] = useMutation(CREATE_TODOITEM, {
 		update(cache, { data: { addTodoItem } }) {
 			const { todoItems } = cache.readQuery({ query: GET_TODOITEMS });
 
@@ -46,19 +46,22 @@ export default function TodoItems() {
 		},
 	});
 
-	if (todoItems.loading) return <Loader />;
-	if (todoItems.error || newTodoItem.error) return <p>ERROR</p>;
+	if (todoItems.loading) {
+		return  (<Loader />);
+	}
+
+	if (todoItems.error || newTodoItem.error) {return (<p>ERROR</p>);}
 
 	const onSubmit = (input) => {
 		setModal(false);
-		createTodoItem({
+		addTodoItem({
 			variables: { input },
 
 			optimisticResponse: {
 				__typename: "Mutation",
 				addTodoItem: {
 					__typename: "TodoItem",
-					id: Math.round(Math.random() * -1000000) + "",
+					id: 'Saving',
 					label: input.label,
 					isCompleted: input.isCompleted,
 				},

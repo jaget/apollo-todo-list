@@ -55,6 +55,22 @@ class TodoItemsAPI extends DataSource {
 			}
 		);
 	}
+
+	async update({ id }) {
+		return await this.store[tableName].destroy({ where: { id } }).then(
+			function (rowDeleted) {
+				// rowDeleted will return number of rows deleted
+				if (rowDeleted === 1) {
+					return { success: true };
+				}
+				return { success: false };
+			},
+			function (err) {
+				console.log(err);
+				return { success: false };
+			}
+		);
+	}
 }
 
 module.exports = TodoItemsAPI;

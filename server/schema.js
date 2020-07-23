@@ -29,6 +29,17 @@ const typeDefs = gql`
 		id: ID!
 	}
 
+	input UpdateTodoItemInput {
+		id: ID!
+		label: String!
+		isCompleted: Boolean
+		todoListId: ID!
+	}
+
+	type UpdateTodoItemFeedback {
+		success: Boolean!
+	}
+
 	input TodoListInput {
 		name: String!
 	}
@@ -50,6 +61,12 @@ const typeDefs = gql`
 		addTodoList(input: NewTodoListInput): TodoList
 		addTodoItem(input: NewTodoItemInput): TodoItem
 		deleteTodoItem(input: DeleteTodoItemInput): DeleteTodoItemFeedback
+		updateTodoItem(input: UpdateTodoItemInput): UpdateTodoItemFeedback
+	}
+
+	type Subscription {
+		todoItemAdded: TodoItem
+		# commentAdded(repoFullName: String!): Comment
 	}
 `;
 
