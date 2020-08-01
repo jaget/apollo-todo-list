@@ -1,4 +1,3 @@
-const uuidv4 = require("uuid/v4");
 const { DataSource } = require("apollo-datasource");
 
 class TodoListsAPI extends DataSource {
@@ -50,7 +49,7 @@ class TodoListsAPI extends DataSource {
 	async bookTrip({ launchId }) {
 		const userId = this.context.user.id;
 		const res = await this.store.trips.findOrCreate({
-			where: { userId, launchId }
+			where: { userId, launchId },
 		});
 		return res && res.length ? res[0].get() : false;
 	}
@@ -63,10 +62,10 @@ class TodoListsAPI extends DataSource {
 	async getLaunchIdsByUser() {
 		const userId = this.context.user.id;
 		const found = await this.store.trips.findAll({
-			where: { userId }
+			where: { userId },
 		});
 		return found && found.length
-			? found.map(l => l.dataValues.launchId).filter(l => !!l)
+			? found.map((l) => l.dataValues.launchId).filter((l) => !!l)
 			: [];
 	}
 
@@ -74,16 +73,14 @@ class TodoListsAPI extends DataSource {
 		if (!this.context || !this.context.user) return false;
 		const userId = this.context.user.id;
 		const found = await this.store.trips.findAll({
-			where: { userId, launchId }
+			where: { userId, launchId },
 		});
 		return found && found.length > 0;
 	}
 
 	async findAll() {
 		const found = await this.store.todoLists.findAll({});
-		return found && found.length
-			? found
-			: [];
+		return found && found.length ? found : [];
 	}
 }
 

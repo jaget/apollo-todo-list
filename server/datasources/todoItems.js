@@ -1,4 +1,3 @@
-const uuidv4 = require("uuid/v4");
 const { DataSource } = require("apollo-datasource");
 
 const tableName = "TodoItems";
