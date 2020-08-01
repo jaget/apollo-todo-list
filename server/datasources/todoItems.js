@@ -1,7 +1,7 @@
 const uuidv4 = require("uuid/v4");
 const { DataSource } = require("apollo-datasource");
 
-const tableName = "todoItems";
+const tableName = "TodoItems";
 
 class TodoItemsAPI extends DataSource {
 	constructor({ store }) {

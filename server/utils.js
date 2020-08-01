@@ -1,16 +1,17 @@
 const { Sequelize } = require("sequelize");
+const { TodoItems, TodoLists } = require("./models/index");
 
 module.exports.paginateResults = ({
 	after: cursor,
 	pageSize = 20,
 	results,
 	// can pass in a function to calculate an item's cursor
-	getCursor = () => null
+	getCursor = () => null,
 }) => {
 	if (pageSize < 1) return [];
 
 	if (!cursor) return results.slice(0, pageSize);
-	const cursorIndex = results.findIndex(item => {
+	const cursorIndex = results.findIndex((item) => {
 		// if an item has a `cursor` on it, use that, otherwise try to generate one
 		let itemCursor = item.cursor ? item.cursor : getCursor(item);
 
@@ -31,44 +32,8 @@ module.exports.paginateResults = ({
 module.exports.createStore = () => {
 	const db = new Sequelize({
 		dialect: "sqlite",
-		storage: "./store.sqlite"
+		storage: "./store.sqlite",
 	});
 
-	const todoLists = db.define("todoLists", {
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		name: Sequelize.STRING
-	});
-
-	todoLists.associate = function(models) {
-		todoLists.hasMany(
-			models.todoItems
-			//  {as: 'employes'}
-		);
-	};
-
-	const todoItems = db.define("todoItems", {
-		id: {
-			type: Sequelize.INTEGER,
-			primaryKey: true,
-			autoIncrement: true
-		},
-		createdAt: Sequelize.DATE,
-		updatedAt: Sequelize.DATE,
-		label: Sequelize.STRING,
-		isCompleted: {
-			type: Sequelize.BOOLEAN,
-			defaultValue: false
-		},
-		todoListId: Sequelize.INTEGER
-	});
-
-	todoItems.associate = function(models) {
-		todoItems.belongsTo(models.todoLists, {
-			foreignKey: "todoListId",
-			as: "listItem"
-		});
-	};
-
-	return { db, todoLists, todoItems };
+	return { db, TodoLists, TodoItems };
 };
