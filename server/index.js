@@ -1,6 +1,8 @@
 const { ApolloServer } = require("apollo-server");
 const typeDefs = require("./schema");
 const resolvers = require("./resolvers");
+const {createToken, getUserFromToken} = require('./auth')
+
 // const { models, db } = require("./db");
 
 const { createStore } = require("./utils");
@@ -20,20 +22,21 @@ const dataSources = () => ({
 const server = new ApolloServer({
 	typeDefs,
 	resolvers,
-	dataSources,
 	// context() {
 	// 	return { models, db };
 	// }
-	context: async ({ req, connection }) => {
+	dataSources,
+	context({req, connection}) {
+		const ctx = {...store}
 		if (connection) {
-			// check connection for metadata
-			return connection.context;
-		} else {
 			// check from req
-			const token = req.headers.authorization || "";
-			return { token };
+			return {...ctx, ...connection.context}
 		}
-	},
+
+		const token = req.headers.authorization
+		const user = getUserFromToken(token)
+		return {...store, user, createToken}
+	}
 	// subscriptions: {
 	// 	onConnect: (connectionParams, webSocket) => {
 	// 		console.log("connect");
